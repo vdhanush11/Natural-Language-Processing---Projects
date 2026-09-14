@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NewsLens | Classification console</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">NL</span>
+      <span><strong>NewsLens</strong><small>classification console</small></span>
+    </a>
+    <div class="status"><span id="status-dot"></span><span id="status-text">Connecting</span></div>
+  </header>
+
+  <main class="shell">
+    <section class="intro">
+      <div>
+        <p class="kicker">Editorial intelligence / live model</p>
+        <h1>Turn headlines into a clearer news desk.</h1>
+        <p class="lede">Classify articles, inspect confidence, and route every result into a searchable category feed.</p>
+      </div>
+      <div class="intro-stat"><span id="total-routed">0</span><small>articles routed</small></div>
+    </section>
+
+    <nav class="tabs" aria-label="Workspaces">
+      <button class="tab active" data-view="classify">Classify</button>
+      <button class="tab" data-view="batch">Batch review</button>
+      <button class="tab" data-view="feeds">Routed feeds</button>
+    </nav>
+
+    <section id="classify-view" class="view active">
+      <div class="workspace-grid">
+        <form id="predict-form" class="panel composer">
+          <div class="panel-heading"><div><p class="eyebrow">Single article</p><h2>What is this story about?</h2></div><span class="step">01</span></div>
+          <div class="sample-row"><span>Try a sample</span><button type="button" class="sample" data-sample="The central bank announced a new policy to support economic growth and control inflation.">Markets</button><button type="button" class="sample" data-sample="The team secured a dramatic victory in the final match after a late goal.">Sports</button><button type="button" class="sample" data-sample="Researchers announced a breakthrough in renewable energy technology.">Science</button></div>
+          <label for="article-text">Article text</label>
+          <textarea id="article-text" minlength="3" maxlength="10000" placeholder="Paste a headline, summary, or full article here..." required></textarea>
+          <div class="controls">
+            <label class="check"><input id="route" type="checkbox" checked> Route to category feed</label>
+            <label class="check"><input id="cleaned" type="checkbox"> Show cleaned text</label>
+            <label class="select-label">Top results <select id="top-k"><option>3</option><option>5</option><option>7</option></select></label>
+          </div>
+          <button class="primary" type="submit"><span>Classify article</span><span>→</span></button>
+          <p id="form-error" class="error" role="alert"></p>
+        </form>
+        <aside id="result-panel" class="panel result-panel empty"><p class="eyebrow">Model result</p><div class="result-empty"><span class="result-icon">+</span><h2>Awaiting an article</h2><p>Your predicted category and confidence profile will appear here.</p></div></aside>
+      </div>
+    </section>
+
+    <section id="batch-view" class="view">
+      <div class="panel batch-panel">
+        <div class="panel-heading"><div><p class="eyebrow">Batch review</p><h2>Classify up to 50 articles</h2></div><span class="step">02</span></div>
+        <p class="muted">Put one article per line. Results stay together so you can scan the whole story mix at once.</p>
+        <textarea id="batch-text" class="batch-input" placeholder="Article one...&#10;&#10;Article two...&#10;&#10;Article three..."></textarea>
+        <div class="batch-actions"><label class="check"><input id="batch-route" type="checkbox" checked> Route results</label><button id="batch-submit" class="primary" type="button">Run batch <span>→</span></button></div>
+        <p id="batch-error" class="error" role="alert"></p>
+      </div>
+      <div id="batch-results" class="batch-results"></div>
+    </section>
+
+    <section id="feeds-view" class="view">
+      <div class="feed-toolbar"><div><p class="eyebrow">Routed feeds</p><h2>Recent classification activity</h2></div><div class="feed-filters"><select id="category-filter"><option value="">All categories</option></select><button id="refresh-feeds" class="secondary">Refresh</button></div></div>
+      <div id="feed-list" class="feed-list"><div class="loading">Loading routed articles...</div></div>
+    </section>
+  </main>
+  <footer><span>NewsLens v1.0</span><a href="/docs" target="_blank">API documentation ↗</a></footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
