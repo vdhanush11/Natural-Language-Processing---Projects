@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111820">
+  <title>SignalShield | Email intelligence</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="#dashboard" aria-label="SignalShield home">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span><strong>signal</strong><em>shield</em></span>
+      </a>
+      <div class="side-label">Workspace</div>
+      <nav class="nav-list">
+        <a class="nav-item active" href="#dashboard" data-view="dashboard"><span class="nav-icon">⌁</span>Command center</a>
+        <a class="nav-item" href="#quarantine" data-view="quarantine"><span class="nav-icon">◈</span>Quarantine <b id="nav-count">0</b></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="model-tile">
+          <div class="model-icon">✦</div>
+          <div><span>Active model</span><strong>Multinomial NB</strong><small>v1.0.0 · ready</small></div>
+          <i class="status-dot"></i>
+        </div>
+        <div class="side-footer"><span class="mini-shield">✓</span>Private by design</div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="crumbs"><span>Workspace</span><i>/</i><strong id="view-label">Command center</strong></div>
+        <div class="top-actions"><span class="live-pill"><i></i> System operational</span><button class="icon-button" id="refresh-btn" title="Refresh data" aria-label="Refresh data">↻</button><div class="avatar">SS</div></div>
+      </header>
+
+      <section class="view" id="dashboard-view">
+        <div class="page-intro reveal">
+          <div><p class="eyebrow">THREAT INTELLIGENCE <span>•</span> LIVE</p><h1>See what gets through.<br><em>Stop what shouldn’t.</em></h1><p class="intro-copy">A calm, decisive layer between your inbox and the noise. Analyze a message and get a clear answer in seconds.</p></div>
+          <div class="intro-meta"><span class="pulse-ring"><i></i></span><div><strong>Protection active</strong><small>Last checked just now</small></div></div>
+        </div>
+
+        <div class="stats-grid reveal delay-1">
+          <article class="stat-card"><div class="stat-top"><span>Messages scanned</span><span class="stat-symbol">↗</span></div><strong id="stat-scans">0</strong><small><span class="positive">●</span> Across this workspace</small></article>
+          <article class="stat-card alert-card"><div class="stat-top"><span>Threats caught</span><span class="stat-symbol">⊘</span></div><strong id="stat-threats">0</strong><small><span class="coral">●</span> Held for review</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Detection rate</span><span class="stat-symbol">◌</span></div><strong id="stat-rate">0<sup>%</sup></strong><small><span class="positive">●</span> Model confidence signal</small></article>
+          <article class="stat-card accent-card"><div class="stat-top"><span>Current state</span><span class="stat-symbol">✦</span></div><strong>Ready</strong><small><span class="positive">●</span> API and model online</small></article>
+        </div>
+
+        <div class="workspace-grid reveal delay-2">
+          <section class="panel scan-panel">
+            <div class="panel-heading"><div><p class="eyebrow">ANALYZE A MESSAGE</p><h2>Make the call.</h2></div><span class="step-chip">01 <i>/</i> 01</span></div>
+            <form id="scan-form">
+              <label for="email-text">Paste email content</label>
+              <textarea id="email-text" name="text" minlength="3" placeholder="Paste the subject and body of an email here..." required></textarea>
+              <div class="composer-footer"><span id="char-count">0 / 100,000</span><button class="primary-button" type="submit"><span>Analyze message</span><b>→</b></button></div>
+            </form>
+            <div class="sample-row"><span>Try a sample</span><button type="button" class="sample-button" data-sample="Congratulations! You have been selected for a free cash prize. Click the link below to claim your reward now.">Prize notification</button><button type="button" class="sample-button" data-sample="Hi team, the revised project brief is attached. Let me know if you have any questions before our review tomorrow.">Team update</button></div>
+          </section>
+
+          <section class="panel result-panel" id="result-panel" aria-live="polite">
+            <div class="empty-result" id="empty-result"><div class="orbit"><span>✦</span></div><p class="eyebrow">WAITING FOR INPUT</p><h2>Your signal<br><em>appears here.</em></h2><p>Submit an email to see its classification, confidence, and next action.</p></div>
+            <div class="result-content hidden" id="result-content"><div class="result-label"><span class="result-icon" id="result-icon">!</span><div><p class="eyebrow" id="result-eyebrow">CLASSIFICATION</p><h2 id="result-title">Threat detected</h2></div><span class="result-badge" id="result-badge">SPAM</span></div><div class="confidence-wrap"><div class="confidence-line"><span>Confidence score</span><strong id="confidence-value">0%</strong></div><div class="confidence-track"><span id="confidence-bar"></span></div></div><div class="score-grid"><div><span>Spam signal</span><strong id="spam-score">0%</strong></div><div><span>Safe signal</span><strong id="ham-score">0%</strong></div></div><div class="action-note" id="action-note"><span>↳</span><p><strong>Action taken</strong><br>Message held in quarantine for review.</p></div><button class="secondary-button" id="clear-result" type="button">Analyze another <span>↗</span></button></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view hidden" id="quarantine-view">
+        <div class="page-intro compact reveal"><div><p class="eyebrow">CONTROL ROOM <span>•</span> REVIEW QUEUE</p><h1>Quarantine<br><em>ledger.</em></h1><p class="intro-copy">Messages classified as threats are held here with their original context.</p></div></div>
+        <section class="panel table-panel reveal delay-1"><div class="panel-heading"><div><p class="eyebrow">HELD MESSAGES</p><h2>Recent activity</h2></div><button class="secondary-button" id="quarantine-refresh" type="button">Refresh <span>↻</span></button></div><div class="table-wrap"><table><thead><tr><th>Message</th><th>Confidence</th><th>Received</th><th>Status</th></tr></thead><tbody id="quarantine-body"><tr><td colspan="4" class="table-empty">Loading quarantine ledger...</td></tr></tbody></table></div></section>
+      </section>
+
+      <footer class="page-footer"><span>SignalShield / Email intelligence console</span><span>Local model · Data stays in your workspace</span></footer>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
