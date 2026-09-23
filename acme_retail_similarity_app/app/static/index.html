@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Acme Retail product similarity and recommendation system" />
+  <title>Acme Retail • Product Similarity</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">A</div>
+        <div>
+          <strong>Acme Retail</strong>
+          <span>Similarity Engine</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-view="recommendation">Recommendations</button>
+        <button class="nav-item" data-view="compare">Compare Models</button>
+        <button class="nav-item" data-view="catalogue">Catalogue</button>
+      </nav>
+
+      <div class="system-card">
+        <div class="eyebrow">SYSTEM</div>
+        <div id="system-status">Checking model status…</div>
+        <div class="status-dot-row">
+          <span class="dot" id="health-dot"></span>
+          <span id="health-text">Connecting</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">NLP / ML PRODUCT DISCOVERY</div>
+          <h1 id="page-title">Product recommendations</h1>
+          <p id="page-subtitle">Find semantically similar products from the catalogue.</p>
+        </div>
+        <div class="stats" id="stats"></div>
+      </header>
+
+      <section id="recommendation-view" class="view active">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <span class="pill">COSINE SIMILARITY</span>
+            <h2>Start with a product.</h2>
+            <p>Search by catalogue ID or describe a product in your own words. Choose the representation that best fits your use case.</p>
+          </div>
+
+          <form id="recommend-form" class="search-panel">
+            <div class="input-group">
+              <label>Product text</label>
+              <textarea id="query-text" rows="3" placeholder="e.g. wireless bluetooth headphones with noise cancellation"></textarea>
+            </div>
+
+            <div class="or-line"><span>OR</span></div>
+
+            <div class="input-group compact">
+              <label>Catalogue ID</label>
+              <input id="catalog-id" type="number" min="0" placeholder="e.g. 100" />
+            </div>
+
+            <div class="controls-grid">
+              <div class="input-group">
+                <label>Model</label>
+                <select id="model">
+                  <option selected>TF-IDF</option>
+                  <option>FastText</option>
+                  <option>Word2Vec</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Top-N</label>
+                <select id="top-n">
+                  <option>5</option>
+                  <option selected>10</option>
+                  <option>15</option>
+                  <option>20</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Main category</label>
+                <select id="main-category">
+                  <option value="">All categories</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Sub category</label>
+                <select id="sub-category">
+                  <option value="">All sub-categories</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="primary-btn" type="submit">
+              <span>Find similar products</span>
+              <span class="arrow">→</span>
+            </button>
+          </form>
+        </div>
+
+        <div id="query-summary" class="query-summary hidden"></div>
+        <div id="results" class="results-grid"></div>
+      </section>
+
+      <section id="compare-view" class="view">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">MODEL BENCHMARK</div>
+            <h2>Compare all three representations</h2>
+            <p>Run the same query through TF-IDF, Word2Vec and FastText.</p>
+          </div>
+          <button id="compare-btn" class="primary-btn small">Compare models</button>
+        </div>
+
+        <div class="compare-input card">
+          <textarea id="compare-query" rows="3" placeholder="Enter a product query…"></textarea>
+          <div class="inline-field">
+            <label>Catalogue ID (optional)</label>
+            <input id="compare-catalog-id" type="number" min="0" placeholder="100" />
+          </div>
+          <div class="inline-field">
+            <label>Top-N</label>
+            <select id="compare-top-n">
+              <option>5</option>
+              <option selected>10</option>
+              <option>15</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="compare-results" class="compare-grid"></div>
+      </section>
+
+      <section id="catalogue-view" class="view">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">CATALOGUE EXPLORER</div>
+            <h2>Browse the source catalogue</h2>
+            <p>Inspect products and quickly use any catalogue ID as a query.</p>
+          </div>
+        </div>
+
+        <div class="catalogue-toolbar card">
+          <input id="catalogue-search" placeholder="Search product names…" />
+          <select id="catalogue-category">
+            <option value="">All categories</option>
+          </select>
+          <button id="catalogue-search-btn" class="secondary-btn">Search</button>
+        </div>
+
+        <div id="catalogue-results" class="catalogue-list"></div>
+      </section>
+
+      <footer>
+        <span>Acme Retail Product Similarity System</span>
+        <span>FastAPI • TF-IDF • Word2Vec • FastText</span>
+      </footer>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
