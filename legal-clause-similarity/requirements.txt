@@ -1,0 +1,6 @@
+fastapi[standard]
+numpy
+pandas
+scikit-learn
+gensim
+nltk

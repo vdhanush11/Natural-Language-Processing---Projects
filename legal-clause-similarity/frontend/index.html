@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Clause / Find related legal language</title>
+
+    <meta name="theme-color" content="#f4f0e8">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="/frontend/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <div class="page-shell">
+        <header class="topbar">
+            <a class="brand" href="/" aria-label="Clause home"><span class="brand-mark">C</span><span>CLAUSE<span class="brand-dot">.</span></span></a>
+            <div class="topbar-meta"><span class="status-dot"></span><span>Semantic index online</span></div>
+        </header>
+
+        <main>
+            <section class="hero compact-hero">
+                <div class="eyebrow">Semantic legal search</div>
+                <h1>Find similar clauses.</h1>
+                <p class="hero-copy">Search 21,187 legal clauses by meaning, not just matching words.</p>
+            </section>
+
+            <section class="search-panel" aria-label="Clause search">
+                <div class="panel-topline"><span class="panel-label">Query workspace</span><span class="model-chip"><span class="model-chip-dot"></span> TF-IDF · Word2Vec</span></div>
+                <div class="suggestions" aria-label="Example legal clauses">
+                    <div class="suggestions-heading"><span>Try a suggestion</span><span>Click to search</span></div>
+                    <div class="suggestion-grid">
+                        <button class="suggestion-card" type="button" data-example="confidentiality" data-sentence-count="1"><span class="suggestion-count">01 sentence</span><strong>Confidentiality</strong><small>Protect private information</small></button>
+                        <button class="suggestion-card" type="button" data-example="termination" data-sentence-count="2"><span class="suggestion-count">02 sentences</span><strong>Termination</strong><small>End an agreement cleanly</small></button>
+                        <button class="suggestion-card" type="button" data-example="indemnity" data-sentence-count="3"><span class="suggestion-count">03 sentences</span><strong>Indemnity</strong><small>Allocate risk between parties</small></button>
+                    </div>
+                </div>
+                <label class="sr-only" for="query">Legal clause to search</label>
+                <textarea id="query" spellcheck="true" placeholder="Paste a legal clause here...">The parties must protect confidential information.</textarea>
+                <div class="query-footer"><span id="charCount">0 characters</span><span class="keyboard-hint"><kbd>Ctrl</kbd><span>+</span><kbd>Enter</kbd> to search</span></div>
+                <div class="controls">
+                    <label class="select-wrap" for="clauseType"><span>Filter by type</span><select id="clauseType" aria-label="Filter by clause type"><option value="all">All clause types</option><option value="Confidentiality">Confidentiality</option><option value="Termination">Termination</option><option value="Governing Law">Governing Law</option><option value="Indemnity">Indemnity</option><option value="Investments">Investments</option></select></label>
+                    <label class="select-wrap" for="topK"><span>Results</span><select id="topK" aria-label="Number of results"><option value="3">3</option><option value="5" selected>5</option><option value="10">10</option></select></label>
+                    <button id="searchButton" type="button" onclick="searchClauses()"><span>Find similar clauses</span><span class="button-arrow">⌕</span></button>
+                </div>
+                <div id="status" class="status" role="status" aria-live="polite"></div>
+            </section>
+
+            <section id="resultsSection" class="results-section" aria-live="polite">
+                <div class="results-heading"><div><div class="eyebrow">Similarity results</div><h2>Top <span id="headingCount">5</span> matches</h2></div><span id="activeFilter" class="result-count">All clause types</span></div>
+                <div id="results" class="results-list"><div class="empty-state"><span class="empty-line"></span><p>Your closest clauses will appear here.</p></div></div>
+            </section>
+        </main>
+
+        <footer class="footer"><span>Built for careful reading.</span><span class="footer-rule"></span><span>21,187 clauses indexed</span></footer>
+    </div>
+
+
+    <script
+        src="/frontend/script.js"
+    ></script>
+
+
+</body>
+
+</html>
