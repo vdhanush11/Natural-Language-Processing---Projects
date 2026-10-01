@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Next Word Prediction Studio</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <div class="brand-name">NexText AI</div>
+        <div class="brand-sub">Next Word Prediction Studio</div>
+      </div>
+    </div>
+    <div class="status-pill"><span id="status-dot"></span><span id="status-text">Checking models…</span></div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow">NLP • SEQUENCE MODELING • LIVE INFERENCE</div>
+      <h1>Predict what comes <span>next.</span></h1>
+      <p>Enter one sentence, compare four architectures, inspect probabilities, and generate a coherent continuation.</p>
+    </section>
+
+    <section class="workspace">
+      <aside class="sidebar card">
+        <div class="section-label">01 / MODEL</div>
+        <div id="model-list" class="model-list"></div>
+
+        <div class="divider"></div>
+        <div class="section-label">02 / GENERATION</div>
+        <label class="range-label">Words <strong id="word-count">10</strong></label>
+        <input id="word-slider" type="range" min="1" max="30" value="10">
+
+        <div class="divider"></div>
+        <div class="section-label">03 / EVALUATION</div>
+        <div id="evaluation" class="evaluation"></div>
+      </aside>
+
+      <section class="main-panel">
+        <div class="card input-card">
+          <div class="input-head">
+            <div>
+              <div class="section-label">INPUT SEQUENCE</div>
+              <h2>Give the model a starting phrase</h2>
+            </div>
+            <button id="sample-btn" class="ghost-btn">Use sample</button>
+          </div>
+          <textarea id="input-text" placeholder="Example: the government announced">the government announced</textarea>
+          <div class="action-row">
+            <span id="model-hint">Select a model to begin.</span>
+            <button id="predict-btn" class="primary-btn">Predict next word <span>→</span></button>
+          </div>
+        </div>
+
+        <div id="error-box" class="error-box hidden"></div>
+
+        <div class="results-grid">
+          <div class="card prediction-card">
+            <div class="section-label">NEXT PREDICTION</div>
+            <div id="prediction-type" class="muted">Waiting for input</div>
+            <div id="predicted-next" class="big-token">—</div>
+            <div id="confidence" class="confidence">Run a prediction to see confidence.</div>
+          </div>
+
+          <div class="card chart-card">
+            <div class="chart-head">
+              <div>
+                <div class="section-label">PROBABILITY DISTRIBUTION</div>
+                <h3>Top candidates</h3>
+              </div>
+              <span id="chart-model" class="tag">—</span>
+            </div>
+            <div id="prediction-bars" class="bars empty-state">No prediction yet.</div>
+          </div>
+        </div>
+
+        <div class="card generation-card">
+          <div class="chart-head">
+            <div>
+              <div class="section-label">ITERATIVE GENERATION</div>
+              <h3>Generated continuation</h3>
+            </div>
+            <button id="generate-btn" class="secondary-btn">Generate continuation</button>
+          </div>
+          <div id="generated-text" class="generated-text">Your generated continuation will appear here.</div>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-grid">
+      <div class="info-card"><span>RNN</span><strong>Word-level</strong><p>Fixed 10-token sequence + trainable embedding.</p></div>
+      <div class="info-card"><span>LSTM</span><strong>Long memory</strong><p>Gated recurrence for longer dependencies.</p></div>
+      <div class="info-card"><span>GRU</span><strong>Gated recurrence</strong><p>Compact recurrent architecture.</p></div>
+      <div class="info-card"><span>GPT-2</span><strong>Subword Transformer</strong><p>Token-level causal generation; metrics are not directly equivalent to RNN word accuracy.</p></div>
+    </section>
+
+    <footer>
+      <span>Next Word Prediction • Seed 42 • Sequence length 10 • Vocabulary 10,000</span>
+      <span>FastAPI + TensorFlow/Keras + PyTorch/Transformers</span>
+    </footer>
+  </main>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>
