@@ -1,0 +1,10 @@
+{
+  "project": "multilingual_translation_webapp",
+  "model": "facebook/nllb-200-distilled-600M",
+  "languages": "NLLB-200 full registry (202 language/script entries)",
+  "pairs": "All directed language pairs",
+  "backend": "FastAPI",
+  "frontend": "HTML/CSS/JavaScript",
+  "model_weights_in_zip": false,
+  "model_reason": "Large Hugging Face weights are downloaded separately or supplied via MODEL_DIR."
+}

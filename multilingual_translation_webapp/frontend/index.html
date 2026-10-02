@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Multilingual customer-support translation powered by NLLB-200.">
+  <title>Lexora Translate — Multilingual Support AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">L</span>
+      <span>
+        <strong>Lexora</strong>
+        <small>Multilingual AI</small>
+      </span>
+    </a>
+    <div class="top-actions">
+      <span id="healthBadge" class="status-pill loading"><i></i> Checking model…</span>
+      <a href="/docs" target="_blank" class="api-link">API Docs ↗</a>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span></span> CUSTOMER SUPPORT TRANSLATION</div>
+        <h1>Translate support conversations<br><em>without losing the meaning.</em></h1>
+        <p>Powered by the NLLB-200 multilingual Transformer, with language detection and technical-term protection built into the pipeline.</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-stat"><strong>5</strong><span>languages</span></div>
+        <div class="hero-stat"><strong>8</strong><span>directions</span></div>
+        <div class="hero-stat"><strong>600M</strong><span>model params</span></div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="language-row">
+        <div class="language-control">
+          <label>Source language</label>
+          <select id="sourceLanguage">
+            <option value="">Auto detect</option>
+          </select>
+          <span id="detectedHint" class="detect-hint">Automatic detection enabled</span>
+        </div>
+
+        <button id="swapBtn" class="swap-btn" title="Swap languages" aria-label="Swap languages">⇄</button>
+
+        <div class="language-control">
+          <label>Target language</label>
+          <select id="targetLanguage"></select>
+          <span class="detect-hint">NLLB target language</span>
+        </div>
+      </div>
+
+      <div class="translator-grid">
+        <article class="panel input-panel">
+          <div class="panel-head">
+            <div>
+              <span class="panel-kicker">SOURCE MESSAGE</span>
+              <h2>Customer message</h2>
+            </div>
+            <button id="clearBtn" class="ghost-btn">Clear</button>
+          </div>
+          <textarea id="inputText" maxlength="12000" placeholder="Type a customer-support message…&#10;&#10;Example: My payment failed with error ERR-500, please help urgently!"></textarea>
+          <div class="panel-foot">
+            <span id="inputCount">0 characters · 0 words</span>
+            <div class="quick-actions">
+              <button class="chip" data-example="My payment failed with error ERR-500, please help urgently!">Payment issue</button>
+              <button class="chip" data-example="Where is my refund? I have been waiting for three weeks.">Refund</button>
+              <button class="chip" data-example="Bonjour, my tracking number ne fonctionne pas.">Code-switch</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel output-panel">
+          <div class="panel-head">
+            <div>
+              <span class="panel-kicker">TRANSLATED OUTPUT</span>
+              <h2 id="outputTitle">Ready to translate</h2>
+            </div>
+            <div class="output-actions">
+              <button id="copyBtn" class="icon-btn" title="Copy translation" disabled>⧉</button>
+              <button id="downloadBtn" class="icon-btn" title="Download translation" disabled>↓</button>
+            </div>
+          </div>
+          <div id="outputArea" class="output-area empty">
+            <div class="empty-state">
+              <div class="empty-icon">✦</div>
+              <strong>Your translation will appear here</strong>
+              <span>Choose a target language and translate a support message.</span>
+            </div>
+          </div>
+          <div class="panel-foot output-meta">
+            <span id="outputMeta">NLLB-200 · awaiting input</span>
+            <span id="latencyMeta"></span>
+          </div>
+        </article>
+      </div>
+
+      <div class="action-row">
+        <label class="protect-toggle">
+          <input type="checkbox" id="protectTerms" checked>
+          <span class="toggle"></span>
+          <span><strong>Protect technical terms</strong><small>Keep IDs, URLs, emails & error codes unchanged</small></span>
+        </label>
+        <button id="translateBtn" class="translate-btn">
+          <span>Translate message</span>
+          <span class="arrow">→</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="details-grid">
+      <article class="info-card detection-card">
+        <div class="card-head"><span class="card-icon">◎</span><div><span class="panel-kicker">LANGUAGE INTELLIGENCE</span><h3>Detection & confidence</h3></div></div>
+        <div class="confidence-wrap">
+          <div class="confidence-ring"><span id="confidenceValue">—</span></div>
+          <div><strong id="detectedLanguage">Waiting for translation</strong><p id="detectionNote">The detected source language will be shown after translation.</p></div>
+        </div>
+        <div id="candidateList" class="candidate-list"></div>
+      </article>
+
+      <article class="info-card pipeline-card">
+        <div class="card-head"><span class="card-icon">↯</span><div><span class="panel-kicker">INFERENCE PIPELINE</span><h3>What happens behind the scenes</h3></div></div>
+        <div class="pipeline">
+          <div><b>01</b><span>Language detection</span></div>
+          <div><b>02</b><span>Technical-term masking</span></div>
+          <div><b>03</b><span>Sub-word tokenisation</span></div>
+          <div><b>04</b><span>Transformer encoder → decoder</span></div>
+          <div><b>05</b><span>Beam-search decoding</span></div>
+          <div><b>06</b><span>Term restoration & cleanup</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="advanced">
+      <button id="advancedToggle" class="advanced-toggle">
+        <span>Advanced generation controls</span><span id="advancedChevron">+</span>
+      </button>
+      <div id="advancedBody" class="advanced-body hidden">
+        <div class="control">
+          <label>Beam width <output id="beamOut">5</output></label>
+          <input id="beams" type="range" min="1" max="8" value="5">
+          <small>Higher can improve quality but increases latency.</small>
+        </div>
+        <div class="control">
+          <label>Max output tokens <output id="tokensOut">512</output></label>
+          <input id="maxTokens" type="range" min="32" max="1024" step="32" value="512">
+          <small>Maximum generated sequence length.</small>
+        </div>
+        <div class="control">
+          <label>No-repeat n-gram <output id="ngramOut">3</output></label>
+          <input id="ngram" type="range" min="0" max="8" value="3">
+          <small>Suppresses repeated n-gram patterns.</small>
+        </div>
+        <div class="control">
+          <label>Length penalty <output id="lengthOut">1.0</output></label>
+          <input id="lengthPenalty" type="range" min="0.1" max="3" step="0.1" value="1">
+          <small>Adjust preference for shorter/longer translations.</small>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Lexora Translation Workbench</span>
+      <span>Transformer encoder–decoder · NLLB-200 distilled 600M</span>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
