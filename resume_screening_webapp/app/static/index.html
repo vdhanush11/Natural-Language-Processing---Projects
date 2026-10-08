@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Screening AI</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="background-glow glow-one"></div>
+  <div class="background-glow glow-two"></div>
+
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">RS</div>
+        <div>
+          <div class="eyebrow">NLP ENGINEERING</div>
+          <h1>Resume Screening AI</h1>
+        </div>
+      </div>
+      <div class="model-pill">
+        <span class="status-dot"></span>
+        BGE semantic ranking
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">SEMANTIC CANDIDATE MATCHING</div>
+        <h2>Upload a role.<br><span>Find the strongest matches.</span></h2>
+        <p>Screen resumes by meaning, experience, responsibilities, and skills — not keyword overlap alone.</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-label">PIPELINE</div>
+        <div class="pipeline">
+          <span>Parse</span><b>→</b><span>Clean</span><b>→</b><span>Embed</span><b>→</b><span>Rank</span>
+        </div>
+        <div class="hero-card-note">Identity fields are excluded from ranking signals.</div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <aside class="control-panel">
+        <div class="panel-title">Screening inputs</div>
+
+        <label class="field-label">Job description</label>
+        <div id="jdDrop" class="dropzone primary-drop">
+          <input id="jdInput" type="file" accept=".pdf,.docx,.txt" hidden>
+          <div class="drop-icon">↥</div>
+          <strong>Drop JD here</strong>
+          <span>PDF, DOCX or TXT</span>
+          <button type="button" class="ghost-button" id="jdBrowse">Choose file</button>
+          <div id="jdFile" class="file-chip hidden"></div>
+        </div>
+
+        <label class="field-label">Candidate resumes</label>
+        <div id="resumeDrop" class="dropzone">
+          <input id="resumeInput" type="file" accept=".pdf,.docx,.txt" multiple hidden>
+          <div class="drop-icon">＋</div>
+          <strong>Drop resumes here</strong>
+          <span>Upload multiple candidates</span>
+          <button type="button" class="ghost-button" id="resumeBrowse">Choose files</button>
+          <div id="resumeCount" class="file-count">0 resumes selected</div>
+        </div>
+
+        <label class="field-label">Shortlist size <span id="topKValue">5</span></label>
+        <input id="topK" class="slider" type="range" min="1" max="10" value="5">
+
+        <button id="screenButton" class="primary-button" type="button">
+          <span>Run screening</span>
+          <span class="arrow">→</span>
+        </button>
+
+        <div class="fairness-note">
+          <div class="fairness-icon">✓</div>
+          <div>
+            <strong>Fairness guardrail</strong>
+            <span>Name, gender, age and contact details are display-only and never ranking signals.</span>
+          </div>
+        </div>
+      </aside>
+
+      <section class="results-panel">
+        <div id="emptyState" class="empty-state">
+          <div class="empty-orb">✦</div>
+          <h3>Your ranked shortlist will appear here</h3>
+          <p>Upload one job description and multiple resumes, then run semantic screening.</p>
+        </div>
+
+        <div id="loadingState" class="loading-state hidden">
+          <div class="spinner"></div>
+          <h3>Screening candidates…</h3>
+          <p>Parsing files, generating BGE embeddings, and comparing semantic fit.</p>
+        </div>
+
+        <div id="resultState" class="hidden">
+          <div class="results-header">
+            <div>
+              <div class="eyebrow">SCREENING RESULT</div>
+              <h3 id="resultTitle">Ranked shortlist</h3>
+              <p id="resultMeta"></p>
+            </div>
+            <button id="downloadButton" class="secondary-button" type="button">Download CSV</button>
+          </div>
+
+          <div id="stats" class="stats-grid"></div>
+          <div id="candidateList" class="candidate-list"></div>
+        </div>
+      </section>
+    </section>
+
+    <footer>
+      <span>FastAPI backend • BAAI/bge-large-en-v1.5 • cosine similarity</span>
+      <a href="/docs" target="_blank">API docs ↗</a>
+    </footer>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
