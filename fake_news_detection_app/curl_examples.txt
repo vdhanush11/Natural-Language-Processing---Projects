@@ -1,0 +1,8 @@
+Health:
+curl http://127.0.0.1:8000/api/health
+
+Prediction:
+curl -X POST http://127.0.0.1:8000/api/predict -H "Content-Type: application/json" -d "{\"title\":\"Central bank keeps rates unchanged\",\"text\":\"The central bank announced its latest policy decision after a scheduled meeting.\"}"
+
+Explanation:
+curl -X POST http://127.0.0.1:8000/api/explain -H "Content-Type: application/json" -d "{\"title\":\"BREAKING miracle cure\",\"text\":\"Scientists reveal an unbelievable treatment that works instantly.\",\"top_k\":6}"

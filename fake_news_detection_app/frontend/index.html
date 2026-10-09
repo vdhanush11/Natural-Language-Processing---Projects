@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TruthLens — Fake News Detection</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">AI NEWS ANALYSIS</p>
+        <h1>TruthLens</h1>
+        <p class="subtitle">DistilBERT-based FAKE vs REAL news classification</p>
+      </div>
+      <div id="healthBadge" class="badge">Checking backend…</div>
+    </header>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <h2>Analyze an article</h2>
+          <p>Enter a headline and article text. The backend runs the exported model.</p>
+        </div>
+        <button id="exampleBtn" class="secondary">Load example</button>
+      </div>
+
+      <label for="title">Headline</label>
+      <input id="title" maxlength="5000" placeholder="Enter a news headline">
+
+      <label for="text">Article text</label>
+      <textarea id="text" maxlength="50000" rows="11" placeholder="Paste the article text here…"></textarea>
+
+      <div class="actions">
+        <button id="predictBtn" class="primary">Analyze prediction</button>
+        <button id="clearBtn" class="secondary">Clear</button>
+      </div>
+
+      <p id="error" class="error hidden"></p>
+    </section>
+
+    <section id="result" class="card hidden">
+      <div class="result-top">
+        <div>
+          <p class="eyebrow">MODEL PREDICTION</p>
+          <div id="label" class="result-label">—</div>
+        </div>
+        <div class="confidence-box">
+          <span>Confidence</span>
+          <strong id="confidence">—</strong>
+        </div>
+      </div>
+
+      <div class="probability-grid">
+        <div>
+          <div class="metric-line"><span>FAKE</span><strong id="fakeProb">0%</strong></div>
+          <div class="bar"><div id="fakeBar" class="fill"></div></div>
+        </div>
+        <div>
+          <div class="metric-line"><span>REAL</span><strong id="realProb">0%</strong></div>
+          <div class="bar"><div id="realBar" class="fill"></div></div>
+        </div>
+      </div>
+
+      <div class="meta">
+        <span id="lengthMeta"></span>
+        <span id="modelMeta"></span>
+      </div>
+    </section>
+
+    <section id="explanation" class="card hidden">
+      <div class="section-head">
+        <div>
+          <h2>Influence signals</h2>
+          <p>Words with the largest prediction change when removed one at a time.</p>
+        </div>
+        <span class="note">Not causal proof</span>
+      </div>
+      <div id="wordList" class="word-list"></div>
+    </section>
+
+    <section class="card">
+      <h2>How to interpret this</h2>
+      <div class="info-grid">
+        <div>
+          <h3>What it is</h3>
+          <p>A binary NLP classifier trained to recognize patterns associated with FAKE and REAL articles.</p>
+        </div>
+        <div>
+          <h3>What it is not</h3>
+          <p>It is not a live fact-checker and does not independently verify claims against current sources.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <h2>Raw API response</h2>
+        <button id="copyBtn" class="secondary">Copy JSON</button>
+      </div>
+      <pre id="raw">{}</pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
